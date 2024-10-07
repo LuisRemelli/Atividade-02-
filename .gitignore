@@ -162,3 +162,7 @@ cython_debug/
 #.idea/
 
 run.sh
+
+.DS_Store
+*.DS_Store
+*/.DS_Store
