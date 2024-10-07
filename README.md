@@ -1,2 +1,2 @@
-# acb-backend
-Agrinvest Core Business (ACB) - Backend em Python
+# ab-backend
+Agrinvest Brokers (AB) - Backend em Python
