@@ -1,18 +1,48 @@
-from models.user import User
-from sqlalchemy.orm import Session
-from utils.db_session import get_db_session
-
+from psycopg2.extras import RealDictCursor
+import hashlib
+from database.connectionDb import ConnectionDb
 class UserORM:
 
     @staticmethod
-    async def save(user: User):
-        session: Session = get_db_session()
-        session.add(user)
-        session.commit()
-        session.refresh(user)
+    def authenticate_user(username: str, password: str):
+        # Convertendo a senha para MD5
+        hashed_password = hashlib.md5(password.encode()).hexdigest()
+        conn = ConnectionDb.get_db()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        query = "select * from public.usuario u where u.email = %s and u.senha = %s"
+        cursor.execute(query, (username, hashed_password))
+        user = cursor.fetchone()
+        cursor.close()
+        conn.close()
         return user
+    
+    @staticmethod
+    def get_menus(user_id: int):
+        conn = ConnectionDb.get_db()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        
+        cursor.execute("select * from estrutura.menu where menu_id IS NULL AND id in (select menu_id from estrutura.perfil_menu pm where perfil_permissao_id in (select estrutura_perfil_permissao_id from public.usuario u where id = %s)) ORDER BY ordem", (str(user_id)))
+        menus = cursor.fetchall()
+        print("menus", menus)
+        for menu in menus:
+            menu_id = menu["id"]
+            
+            cursor.execute("select * from estrutura.menu where menu_id=%s AND id in (select menu_id from estrutura.perfil_menu pm where perfil_permissao_id in (select estrutura_perfil_permissao_id from public.usuario u where id = %s)) ORDER BY ordem", (str(menu_id), str(user_id)))
+            # cursor.execute("SELECT id, ordem, titulo, icone, link FROM menus WHERE parent_id = %s ORDER BY ordem", (menu["id"],))
+            menu["submenus"] = cursor.fetchall()
+        
+        cursor.close()
+        conn.close()
+        return menus
 
     @staticmethod
-    async def find_by_id(user_id: int):
-        session: Session = get_db_session()
-        return session.query(User).filter_by(id=user_id).first()
+    def get_telas(user_id: int):
+        conn = ConnectionDb.get_db()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        
+        cursor.execute("select id, titulo, hint from estrutura.tela where id in (select tela_id from estrutura.perfil_tela where perfil_permissao_id in (select estrutura_perfil_permissao_id from public.usuario u where id = %s))", (str(user_id),))
+        telas = cursor.fetchall()
+        
+        cursor.close()
+        conn.close()
+        return telas

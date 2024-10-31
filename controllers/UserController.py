@@ -3,26 +3,34 @@ from auth import managertk
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 import json
 from blacklist import BLACKLIST
-# from orm.UserORM import UserORM
+from orms.user_orm import UserORM
 
-# atributosLogin = reqparse.RequestParser()
-# atributosLogin.add_argument('email', required=True, help="The field email cannot be left blank.")
-# atributosLogin.add_argument('password', required=True, help="The field password  cannot be left blank.")
+atributosLogin = reqparse.RequestParser()
+atributosLogin.add_argument('email', required=True, help="The field email cannot be left blank.")
+atributosLogin.add_argument('senha', required=True, help="The field password  cannot be left blank.")
 
 class Auth(Resource):
 
     def post(self):
-        return {"message": 'OK'}, 200
-        # dados = atributosLogin.parse_args()
-        # user = UserORM.auth(dados['email'], dados['password'])
+        
+        dados = atributosLogin.parse_args()
+        user = UserORM.authenticate_user(dados['email'], dados['senha'])
 
-        # if user:
-        #     if user["message"] == "OK":
-        #         token_de_acesso = managertk.createToken(json.dumps(user["user"]["user_id"]))
-        #         return {'message': 'OK','token': token_de_acesso, 'user' :user}, 200
-        #     else:
-        #         return user, user["status_code"]
-        # return {"message":"E-mail ou senhas incorretos"}, 400
+        if user:
+        
+            token_de_acesso = managertk.createToken(json.dumps({"email": user["email"], "id": user["id"]}))
+            
+            menus = UserORM.get_menus(user["id"])
+            telas = UserORM.get_telas(user["id"])
+            
+            return {
+                "token": token_de_acesso,
+                "usuario": user,
+                "menus": menus,
+                "telas":telas
+            }
+        else:
+            return {"message":"E-mail ou senhas incorretos"}, 400
     
     
 
