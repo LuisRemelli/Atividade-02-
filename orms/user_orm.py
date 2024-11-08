@@ -39,9 +39,22 @@ class UserORM:
     def get_telas(user_id: int):
         conn = ConnectionDb.get_db()
         cursor = conn.cursor(cursor_factory=RealDictCursor)
+        telas = []
         
-        cursor.execute("select id, titulo, hint from estrutura.tela where id in (select tela_id from estrutura.perfil_tela where perfil_permissao_id in (select estrutura_perfil_permissao_id from public.usuario u where id = %s))", (str(user_id),))
-        telas = cursor.fetchall()
+        cursor.execute("select * from estrutura.perfil_tela where perfil_permissao_id in (select estrutura_perfil_permissao_id from public.usuario u where id = %s)", (str(user_id),))
+        perfil_telas = cursor.fetchall()
+        for perfil_tela in perfil_telas:
+            perfil_tela_id = perfil_tela["id"]
+            tela_id=perfil_tela["tela_id"]
+            cursor.execute("select id, titulo, hint from estrutura.tela where id=%s", (tela_id))
+            tela = cursor.fetchone()
+            
+            cursor.execute("select tipo_acao from estrutura.acao where perfil_tela_id = %s", (perfil_tela_id))
+            telas["acoes"] = cursor.fetchall()
+            
+            telas.append(tela)
+        
+        
         
         cursor.close()
         conn.close()
