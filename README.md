@@ -25,7 +25,7 @@ A estrutura a seguir foi organizada para facilitar a escalabilidade e manutenç�
 ```
 
 ## ⬇️ Instalação
-Certifique-se de ter o Python 3.10.6 (ou superior) instalado antes de iniciar.
+Certifique-se de ter o Python 3.12 (ou superior) instalado antes de iniciar.
 
 1. Clone este repositório em seu ambiente local.
 2. Acesse a pasta do projeto no terminal.
