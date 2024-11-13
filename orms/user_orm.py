@@ -45,12 +45,12 @@ class UserORM:
         perfil_telas = cursor.fetchall()
         for perfil_tela in perfil_telas:
             perfil_tela_id = str(perfil_tela["id"])
-            print(perfil_tela_id)
-            tela_id=str(perfil_tela["tela_id"])
-            cursor.execute("select id, titulo, hint from estrutura.tela where id=%s", (tela_id))
+            tela_id=perfil_tela["tela_id"]
+            
+            cursor.execute("select id, titulo, hint from estrutura.tela where id=%s", (str(tela_id),))
             tela = cursor.fetchone()
             
-            cursor.execute("select tipo_acao from estrutura.acao where perfil_tela_id = %s", (perfil_tela_id))
+            cursor.execute("select tipo_acao from estrutura.acao where perfil_tela_id = %s", (perfil_tela_id,))
             acoes= cursor.fetchall()
             if acoes:
                 tela["acoes"] = [acao["tipo_acao"] for acao in acoes]
