@@ -44,7 +44,7 @@ Este projeto inclui um Dockerfile para facilitar o uso em containers. Para confi
 1. Certifique-se de ter o Docker instalado no ambiente.
 2. No diretório do projeto, construa a imagem Docker:
 ```bash
-docker build --build-arg PORT=5001 -t agrinvest-backend .
+docker build -t agrinvest-backend .
 ```
 3. Inicie o contêiner com o seguinte comando:
 ```bash
