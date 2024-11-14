@@ -33,7 +33,8 @@ Certifique-se de ter o Python 3.12 (ou superior) instalado antes de iniciar.
 ```bash
 pip install -r requirements.txt
 ```
-4. Execute a aplicação:
+4. Configure as variáveis de ambiente descritas abaixo nesta documentação
+5. Execute a aplicação:
 ```bash
 python3 app.py
 ```
@@ -56,9 +57,6 @@ Parâmetros importantes:
 *  --name agrinvestAPI: Define o nome do contêiner.
 *  -p 5001:5001: Mapeia a porta 5001 do contêiner para o host local.
 *  -v $(pwd):/api: Sincroniza o diretório do projeto com o contêiner, refletindo mudanças feitas no código.
-
-## ⚙️ Configurações
-As configurações de variáveis de ambiente, como credenciais de banco de dados e chaves de acesso, estão no arquivo .env. Configure essas variáveis conforme necessário para o ambiente de desenvolvimento e produção.
 
 ## 🔑 Configuração das Variáveis de Ambiente
 
