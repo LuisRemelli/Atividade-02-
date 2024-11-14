@@ -1,6 +1,7 @@
 from psycopg2.extras import RealDictCursor
 import hashlib
 from database.connectionDb import ConnectionDb
+
 class UserORM:
 
     @staticmethod
@@ -15,7 +16,7 @@ class UserORM:
         cursor.close()
         conn.close()
         return user
-    
+
     @staticmethod
     def get_menus(user_id: int):
         conn = ConnectionDb.get_db()
@@ -23,12 +24,10 @@ class UserORM:
         
         cursor.execute("select * from estrutura.menu where menu_id IS NULL AND id in (select menu_id from estrutura.perfil_menu pm where perfil_permissao_id in (select estrutura_perfil_permissao_id from public.usuario u where id = %s)) ORDER BY ordem", (str(user_id)))
         menus = cursor.fetchall()
-        print("menus", menus)
         for menu in menus:
             menu_id = menu["id"]
             
             cursor.execute("select * from estrutura.menu where menu_id=%s AND id in (select menu_id from estrutura.perfil_menu pm where perfil_permissao_id in (select estrutura_perfil_permissao_id from public.usuario u where id = %s)) ORDER BY ordem", (str(menu_id), str(user_id)))
-            # cursor.execute("SELECT id, ordem, titulo, icone, link FROM menus WHERE parent_id = %s ORDER BY ordem", (menu["id"],))
             menu["submenus"] = cursor.fetchall()
         
         cursor.close()
@@ -45,24 +44,34 @@ class UserORM:
         perfil_telas = cursor.fetchall()
         for perfil_tela in perfil_telas:
             perfil_tela_id = str(perfil_tela["id"])
-            tela_id=perfil_tela["tela_id"]
+            tela_id = perfil_tela["tela_id"]
             
             cursor.execute("select id, titulo, hint from estrutura.tela where id=%s", (str(tela_id),))
             tela = cursor.fetchone()
             
             cursor.execute("select tipo_acao from estrutura.acao where perfil_tela_id = %s", (perfil_tela_id,))
-            acoes= cursor.fetchall()
+            acoes = cursor.fetchall()
             if acoes:
                 tela["acoes"] = [acao["tipo_acao"] for acao in acoes]
             else:
                 tela["acoes"] = []
-
                 
-            
             telas.append(tela)
-        
-        
         
         cursor.close()
         conn.close()
         return telas
+
+    @staticmethod
+    def insert_login_log(user_id: int, ip_address: str, user_agent: str):
+        """Insere um log de login bem-sucedido no banco de dados"""
+        conn = ConnectionDb.get_db()
+        cursor = conn.cursor()
+        query = """
+        INSERT INTO login_logs (user_id, ip_address, user_agent, success, login_time)
+        VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)
+        """
+        cursor.execute(query, (user_id, ip_address, user_agent, True))
+        conn.commit()
+        cursor.close()
+        conn.close()
