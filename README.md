@@ -70,6 +70,7 @@ BLOWFISH_KEY=
 JWT_SECRET_KEY=
 GRAYLOG_HOST=
 GRAYLOG_PORT=
+PORT=
 ```
 
 Descrição das variáveis:
@@ -80,4 +81,4 @@ Descrição das variáveis:
 
 Para as variáveis de `GRAYLOG_HOST` e `GRAYLOG_PORT`, você pode deixá-las em branco inicialmente, pois ainda não estão integradas e não afetam o funcionamento do sistema no momento.
 
-Entretanto, `DATABASE_URL`, `BLOWFISH_KEY`, `JWT_SECRET_KEY` e `TOKEN_HOURS_VALIDATE` são obrigatórias para a aplicação operar corretamente.
+Entretanto, `DATABASE_URL`, `BLOWFISH_KEY`, `JWT_SECRET_KEY`, `PORT` e `TOKEN_HOURS_VALIDATE` são obrigatórias para a aplicação operar corretamente.
