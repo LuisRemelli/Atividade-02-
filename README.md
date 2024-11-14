@@ -59,3 +59,25 @@ Parâmetros importantes:
 
 ## ⚙️ Configurações
 As configurações de variáveis de ambiente, como credenciais de banco de dados e chaves de acesso, estão no arquivo .env. Configure essas variáveis conforme necessário para o ambiente de desenvolvimento e produção.
+
+## 🔑 Configuração das Variáveis de Ambiente
+
+É extremamente importante configurar as variáveis de ambiente abaixo para garantir o funcionamento correto e seguro da aplicação:
+```bash
+DATABASE_URL=
+TOKEN_HOURS_VALIDATE=
+BLOWFISH_KEY=
+JWT_SECRET_KEY=
+GRAYLOG_HOST=
+GRAYLOG_PORT=
+```
+
+Descrição das variáveis:
+* DATABASE_URL: String de conexão com o banco de dados. Este é um parâmetro essencial para o funcionamento da aplicação.
+* TOKEN_HOURS_VALIDATE: Define a quantidade de horas que o token de autenticação é válido.
+* BLOWFISH_KEY: Chave de criptografia usada para proteger dados sensíveis. Esta chave é indispensável para operações de segurança no sistema.
+* JWT_SECRET_KEY: Chave secreta usada para gerar e validar tokens JWT. Sem esta chave, a autenticação via JWT não funcionará.
+
+Para as variáveis de `GRAYLOG_HOST` e `GRAYLOG_PORT`, você pode deixá-las em branco inicialmente, pois ainda não estão integradas e não afetam o funcionamento do sistema no momento.
+
+Entretanto, `DATABASE_URL`, `BLOWFISH_KEY`, `JWT_SECRET_KEY` e `TOKEN_HOURS_VALIDATE` são obrigatórias para a aplicação operar corretamente.
