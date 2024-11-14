@@ -33,7 +33,8 @@ Certifique-se de ter o Python 3.12 (ou superior) instalado antes de iniciar.
 ```bash
 pip install -r requirements.txt
 ```
-4. Execute a aplicação:
+4. Configure as variáveis de ambiente descritas abaixo nesta documentação
+5. Execute a aplicação:
 ```bash
 python3 app.py
 ```
@@ -44,7 +45,7 @@ Este projeto inclui um Dockerfile para facilitar o uso em containers. Para confi
 1. Certifique-se de ter o Docker instalado no ambiente.
 2. No diretório do projeto, construa a imagem Docker:
 ```bash
-docker build --build-arg PORT=5001 -t agrinvest-backend .
+docker build -t agrinvest-backend .
 ```
 3. Inicie o contêiner com o seguinte comando:
 ```bash
@@ -57,5 +58,27 @@ Parâmetros importantes:
 *  -p 5001:5001: Mapeia a porta 5001 do contêiner para o host local.
 *  -v $(pwd):/api: Sincroniza o diretório do projeto com o contêiner, refletindo mudanças feitas no código.
 
-## ⚙️ Configurações
-As configurações de variáveis de ambiente, como credenciais de banco de dados e chaves de acesso, estão no arquivo .env. Configure essas variáveis conforme necessário para o ambiente de desenvolvimento e produção.
+## 🔑 Configuração das Variáveis de Ambiente
+
+Para garantir o funcionamento correto e seguro da aplicação, é extremamente importante configurar as variáveis de ambiente listadas no arquivo .env.example.
+
+Basta criar um arquivo .env na raiz do projeto e preencher os valores necessários:
+```bash
+DATABASE_URL=
+TOKEN_HOURS_VALIDATE=
+BLOWFISH_KEY=
+JWT_SECRET_KEY=
+GRAYLOG_HOST=
+GRAYLOG_PORT=
+PORT=
+```
+
+Descrição das variáveis:
+* DATABASE_URL: String de conexão com o banco de dados. Este é um parâmetro essencial para o funcionamento da aplicação.
+* TOKEN_HOURS_VALIDATE: Define a quantidade de horas que o token de autenticação é válido.
+* BLOWFISH_KEY: Chave de criptografia usada para proteger dados sensíveis. Esta chave é indispensável para operações de segurança no sistema.
+* JWT_SECRET_KEY: Chave secreta usada para gerar e validar tokens JWT. Sem esta chave, a autenticação via JWT não funcionará.
+
+Para as variáveis de `GRAYLOG_HOST` e `GRAYLOG_PORT`, você pode deixá-las em branco inicialmente, pois ainda não estão integradas e não afetam o funcionamento do sistema no momento.
+
+Entretanto, `DATABASE_URL`, `BLOWFISH_KEY`, `JWT_SECRET_KEY`, `PORT` e `TOKEN_HOURS_VALIDATE` são obrigatórias para a aplicação operar corretamente.
