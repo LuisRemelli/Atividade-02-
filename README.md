@@ -62,7 +62,9 @@ As configurações de variáveis de ambiente, como credenciais de banco de dados
 
 ## 🔑 Configuração das Variáveis de Ambiente
 
-É extremamente importante configurar as variáveis de ambiente abaixo para garantir o funcionamento correto e seguro da aplicação:
+Para garantir o funcionamento correto e seguro da aplicação, é extremamente importante configurar as variáveis de ambiente listadas no arquivo .env.example.
+
+Basta criar um arquivo .env na raiz do projeto e preencher os valores necessários:
 ```bash
 DATABASE_URL=
 TOKEN_HOURS_VALIDATE=
