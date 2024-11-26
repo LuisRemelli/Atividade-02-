@@ -6,6 +6,8 @@ from blacklist import BLACKLIST
 from orms.user_orm import UserORM
 from utils.logger import get_logger
 from flask import request
+from database.connectionDb import ConnectionDb
+
 
 # Configuração do logger
 logger = get_logger()
@@ -107,3 +109,16 @@ class UserInsert(Resource):
             else:
                 return user, user["status_code"]
         return {"message": "E-mail ou senha incorretos"}, 400
+
+
+# Nova classe para verificar se o usuário é administrador
+class CheckIfAdmin(Resource):
+    
+    @jwt_required()
+    def get(self):
+        currentDataToken = json.loads(managertk.decodedPayload(get_jwt_identity()))
+        usuario_id = currentDataToken["id"]
+        usuario = UserORM.get_by_user_id(usuario_id)
+        return usuario,200
+
+

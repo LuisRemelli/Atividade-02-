@@ -7,11 +7,12 @@ from flask_cors import CORS
 
 from routes.StartRoute import StartRoute
 from routes.UserRoutes import UserRoutes
+from routes.UnidadeMonetariaRoutes import UnidadeMonetariaRoutes
+from routes.UnidadeDeMedidaRoutes import UnidadeDeMedidaRoutes
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY")
 app.config['JWT_BLACKLIST_ENABLED'] = True
-# app.config['JWT_IDENTITY_CLAIM'] = 'jti' 
 
 CORS(app)
 api = Api(app)
@@ -36,6 +37,8 @@ def token_de_acesso_invalidado(token, jwt_payload):
 
 UserRoutes(api)
 StartRoute(api)
+UnidadeMonetariaRoutes(api)
+UnidadeDeMedidaRoutes(api)
 
 
 if __name__ == '__main__':

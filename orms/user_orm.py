@@ -16,6 +16,19 @@ class UserORM:
         cursor.close()
         conn.close()
         return user
+    
+    
+    @staticmethod
+    def get_by_user_id(user_id: int):
+        # Convertendo a senha para MD5
+        conn = ConnectionDb.get_db()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        query = "select administrador from public.usuario u where u.id = %s"
+        cursor.execute(query, (user_id,))
+        user = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return user
 
     @staticmethod
     def get_menus(user_id: int):
