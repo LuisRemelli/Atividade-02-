@@ -15,3 +15,6 @@ docker run -d -p 5001:5000 \
     -e GRAYLOG_HOST=sua_graylog_host \
     -e GRAYLOG_PORT=sua_graylog_port \
     --name AgrinvestAPI agrinvest-api:latest
+
+
+    
