@@ -7,7 +7,7 @@ class _Start(Resource):
             "title": "Agrinvest ACB API",
             "description": "API para o sistema ACB da Agrinvest.",
             "author": "SantoroIN",
-            "version": "1.0.1",
+            "version": "1.0.0",
             }, 200
 
 class StartRoute:
