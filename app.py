@@ -11,7 +11,7 @@ from routes.UnidadeMonetariaRoutes import UnidadeMonetariaRoutes
 from routes.UnidadeDeMedidaRoutes import UnidadeDeMedidaRoutes
 from routes.PessoaRoutes import PessoaRoutes
 from routes.ProdutoRoutes import ProdutoRoutes
-
+from routes.GrupoProducaoRoutes import GrupoProducaoRoutes
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY")
@@ -44,6 +44,7 @@ UnidadeMonetariaRoutes(api)
 UnidadeDeMedidaRoutes(api)
 PessoaRoutes(api)
 ProdutoRoutes(api)
+GrupoProducaoRoutes(api)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int(os.getenv("PORT")), debug=True)

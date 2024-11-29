@@ -5,6 +5,8 @@ from controllers.ProdutoController import (
     InserirSafraController,
     ListarSafrasController,
     AtualizarSafraController,
+    RelacionarProdutoSafraController,
+    RemoverRelacaoProdutoSafraController
 )
 
 class ProdutoRoutes:
@@ -18,4 +20,6 @@ class ProdutoRoutes:
         self.api.add_resource(AtualizarProdutoController, "/produto/atualizar/produto") # URL para atualizar produtos
         self.api.add_resource(InserirSafraController, "/produto/inserir/safra") # URL para inserir safra
         self.api.add_resource(ListarSafrasController, "/produto/listar/safras") # URL para listar safra
-        self.api.add_resource(AtualizarSafraController, "/produto/atualizar/safra") # URL para atualizar safra 
+        self.api.add_resource(AtualizarSafraController, "/produto/atualizar/safra") # URL para atualizar safra
+        self.api.add_resource(RelacionarProdutoSafraController, "/produto/relacionar/safra") # URL para relacionar entidade e safra
+        self.api.add_resource(RemoverRelacaoProdutoSafraController, "/produto/remover/relacao/safra") # URL para remover relação entidade e safra 
