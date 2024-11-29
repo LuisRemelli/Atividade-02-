@@ -77,7 +77,6 @@ class UserORM:
 
     @staticmethod
     def insert_login_log(user_id: int, ip_address: str, user_agent: str):
-        """Insere um log de login bem-sucedido no banco de dados"""
         conn = ConnectionDb.get_db()
         cursor = conn.cursor()
         query = """
