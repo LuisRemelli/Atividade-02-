@@ -12,6 +12,8 @@ from routes.UnidadeDeMedidaRoutes import UnidadeDeMedidaRoutes
 from routes.PessoaRoutes import PessoaRoutes
 from routes.ProdutoRoutes import ProdutoRoutes
 from routes.GrupoProducaoRoutes import GrupoProducaoRoutes
+from routes.ClienteRoutes import ClienteRoutes
+from routes.OfertaRoutes import OfertaRoutes
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY")
@@ -24,9 +26,6 @@ jwt = JWTManager(app)
 @app.route("/get_ip", methods=["GET"])
 def get_my_ip():
     return jsonify({'ip': request.remote_addr}), 200
-
-
-
 
 @jwt.token_in_blocklist_loader
 def verifica_blocklist(token, jwt_payload):
@@ -45,6 +44,8 @@ UnidadeDeMedidaRoutes(api)
 PessoaRoutes(api)
 ProdutoRoutes(api)
 GrupoProducaoRoutes(api)
+ClienteRoutes(api)
+OfertaRoutes(api)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int(os.getenv("PORT")), debug=True)
